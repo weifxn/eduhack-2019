@@ -14,10 +14,12 @@ function App() {
     mapping={mapping}
     theme={lightTheme}>
 
-      
-    <View style={{flex: 1}}>
+
+    <View style={{flex: 1
+}}>
+
        <StatusBar backgroundColor="blue" barStyle="light-content" />
-      <SignUp />
+      <Login />
     </View>
 
 

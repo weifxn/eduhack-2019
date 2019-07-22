@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { Input } from 'react-native-ui-kitten';
 
 function App() {
   return (
@@ -15,25 +16,28 @@ function App() {
 
       
 
-      <TextInput 
+      <Input 
         style={styles.textInput}
+
         autoCapitalize="none"
         placeholder="Username"
       />
-      <TextInput 
+      <Input 
         style={styles.textInput}
+
         autoCapitalize="none"
         placeholder="Email"
       />
-    <TextInput
+    <Input
         style={styles.textInput}
         secureTextEntry={true}
         autoCapitalize="none"
         placeholder="Password"
       />
 
-      <TextInput 
+      <Input 
         style={styles.textInput}
+
         secureTextEntry={true}
         autoCapitalize="none"
         placeholder="Confirm Password"
@@ -59,17 +63,14 @@ const styles = StyleSheet.create(
   {
     container: {
       flex: 1,
+      padding: 30,
       backgroundColor: 'rgb(31,36,48)',
       alignItems: 'center',
       justifyContent: 'center',
     },
 
     textInput: { 
-      height: 20, 
-      width: 150, 
-      backgroundColor: '#eee', 
-      textAlign: 'center',
-      margin: 20,
+      margin: 10,
     },
   }
 
