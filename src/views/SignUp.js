@@ -4,16 +4,20 @@ import {
   Text, 
   View, 
   TextInput,
-  Button,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView
 } from 'react-native';
 
-import { Input } from 'react-native-ui-kitten';
+import Input from '../components/myInput';
+import { Button } from 'react-native-ui-kitten';
+
 
 function App() {
   return (
-    <View style={styles.container}>
-
+    <ScrollView>
+    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <Text style={{margin: 40, fontSize: 20}}>Sign Up</Text>
       
 
       <Input 
@@ -43,18 +47,14 @@ function App() {
         placeholder="Confirm Password"
       />
 
-
-
-
-      <TouchableOpacity>
-      <View>
-      <Text>Hello World</Text>
-      </View>
-      </TouchableOpacity>
-
-      
-      <Button title="submit" />
-    </View>
+      <Button style={{margin: 20}}>
+        Submit
+        </Button>
+        <Button appearance="ghost">
+        Back
+        </Button>
+    </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
@@ -64,7 +64,6 @@ const styles = StyleSheet.create(
     container: {
       flex: 1,
       padding: 30,
-      backgroundColor: 'rgb(31,36,48)',
       alignItems: 'center',
       justifyContent: 'center',
     },

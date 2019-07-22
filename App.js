@@ -15,11 +15,10 @@ function App() {
     theme={lightTheme}>
 
 
-    <View style={{flex: 1
-}}>
+    <View style={{flex: 1, backgroundColor: '#eee',}}>
 
-       <StatusBar backgroundColor="blue" barStyle="light-content" />
-      <Login />
+       <StatusBar barStyle="dark-content" />
+      <SignUp />
     </View>
 
 
