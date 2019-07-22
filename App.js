@@ -1,19 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native'
 
-export default function App() {
+// UI Kitten
+import { mapping, light as lightTheme } from '@eva-design/eva';
+import { ApplicationProvider, Layout } from 'react-native-ui-kitten';
+
+import Login from './src/views/Login'
+import SignUp from './src/views/SignUp'
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <ApplicationProvider
+    mapping={mapping}
+    theme={lightTheme}>
+
+      
+    <View style={{flex: 1}}>
+       <StatusBar backgroundColor="blue" barStyle="light-content" />
+      <SignUp />
     </View>
+
+
+    </ApplicationProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
