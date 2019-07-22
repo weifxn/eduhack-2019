@@ -8,12 +8,19 @@ import { ApplicationProvider, Layout } from 'react-native-ui-kitten';
 
 import LoginPage from './src/views/Login'
 import SignUpPage from './src/views/SignUp'
+import HomePage from './src/views/Home'
+import PostOfferPage from './src/views/PostOffer'
+
+
 
 const RootStack = createStackNavigator({
   Login: LoginPage,
-  SignUp: SignUpPage
+  SignUp: SignUpPage,
+  Home: HomePage,
+  PostOffer: PostOfferPage,
 }, {
-    initialRouteName: 'Login'
+    headerMode: 'none',
+    initialRouteName: 'PostOffer'
   })
 
 const AppContainer = createAppContainer(RootStack);
