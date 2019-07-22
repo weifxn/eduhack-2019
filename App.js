@@ -10,6 +10,7 @@ import LoginPage from './src/views/Login'
 import SignUpPage from './src/views/SignUp'
 import HomePage from './src/views/Home'
 import PostOfferPage from './src/views/PostOffer'
+import AgendaPage from './src/views/Agenda'
 
 
 
@@ -17,6 +18,7 @@ const RootStack = createStackNavigator({
   Login: LoginPage,
   SignUp: SignUpPage,
   Home: HomePage,
+  Agenda: AgendaPage,
   PostOffer: PostOfferPage,
 }, {
     headerMode: 'none',

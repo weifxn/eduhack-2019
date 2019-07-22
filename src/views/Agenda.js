@@ -12,6 +12,8 @@ import {
   Dimensions,
   Image
 } from 'react-native';
+import Timeline from 'react-native-timeline-listview'
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 var { height, width } = Dimensions.get('window');
 
@@ -22,6 +24,13 @@ import { Button } from 'react-native-ui-kitten';
 import DateTimePicker from
  "react-native-modal-datetime-picker";
 import Picker from '../components/picker'
+const schedule = [
+    {time: '09:00', title: 'Event 1', description: 'Event 1 Description'},
+    {time: '10:45', title: 'Event 2', description: 'Event 2 Description'},
+    {time: '12:00', title: 'Event 3', description: 'Event 3 Description'},
+    {time: '14:00', title: 'Event 4', description: 'Event 4 Description'},
+    {time: '16:30', title: 'Event 5', description: 'Event 5 Description'}
+  ]
 
 const data = [
   {
@@ -108,36 +117,11 @@ function App(props) {
         />
 
         <Text style={{ margin: 20, fontSize: 20 }}>
-          Team Registration
+          Agenda
         </Text>
-
-        <Input
-          style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="Team Name"
+        <Timeline
+          data={schedule}
         />
-
-        <Input
-          style={styles.textInput}
-          keyboardType="number-pad"
-          autoCapitalize="none"
-          placeholder="University"
-        />
-  
-        <FlatList 
-        style={{flexGrow: 0, paddingBottom: 20}}
-          renderItem={renderItem}
-          keyExtractor={(v, index) => index.toString()}
-          data={memberList}
-
-        />
-          <Button
-         onPress={()=>addMember()}
-         style={{ marginBottom: 10, marginTop: -15 }}
-         appearance="ghost">
-
-         Add member
-        </Button>
 
         <Button
          

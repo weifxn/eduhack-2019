@@ -5,7 +5,7 @@ function myInput(props) {
     return (
         <TextInput
             {...props}
-            style={{
+            style={[{
                 width: '80%',
                 height: 50,
                 backgroundColor: 'white',
@@ -21,7 +21,7 @@ function myInput(props) {
                 shadowRadius: 10.00,
 
                 elevation: 10,
-            }}
+            }, props.style]}
         />
     )
 }
