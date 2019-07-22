@@ -11,7 +11,8 @@ import Input from '../components/myInput'
 import { Button } from 'react-native-ui-kitten';
 
 
-function App() {
+function App(props) {
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 
@@ -43,7 +44,8 @@ function App() {
     </Button>
 
       <Button
-        appearance="ghost" >
+          onPress={() => props.navigation.navigate('SignUp')}
+          appearance="ghost" >
         Sign Up
     </Button>
     </KeyboardAvoidingView>

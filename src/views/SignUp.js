@@ -13,7 +13,7 @@ import Input from '../components/myInput';
 import { Button } from 'react-native-ui-kitten';
 
 
-function App() {
+function App(props) {
   return (
     <ScrollView>
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -50,7 +50,10 @@ function App() {
       <Button style={{margin: 20}}>
         Submit
         </Button>
-        <Button appearance="ghost">
+        <Button 
+        onPress={() => props.navigation.navigate('Login')}
+
+        appearance="ghost">
         Back
         </Button>
     </KeyboardAvoidingView>

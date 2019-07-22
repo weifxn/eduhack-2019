@@ -17,7 +17,7 @@ function myInput(props) {
                     width: 0,
                     height: 10,
                 },
-                shadowOpacity: 0.02,
+                shadowOpacity: 0.10,
                 shadowRadius: 10.00,
 
                 elevation: 10,
