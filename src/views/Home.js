@@ -47,8 +47,8 @@ function App(props) {
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-      getData()
-    }, [])
+    getData()
+  }, [])
 
   const checkDone = () => {
     if (isLoading) {
@@ -62,7 +62,7 @@ function App(props) {
       .ref()
       .child("teams")
       .on('value', snap => {
-        if(snap !== null) {
+        if (snap !== null) {
           snap.forEach(item => {
             const data = item.val()
             var payload = {
@@ -83,38 +83,39 @@ function App(props) {
 
   function renderItem({ item, index }) {
     return (
-  
-      <View style={styles.listItem}>
-        <Text>{item.name}</Text>
-        <Text>{item.uni}</Text>
-  
-      </View>
+      <TouchableOpacity style={styles.listItem}>
+
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.uni}>{item.uni}</Text>
+
+      </TouchableOpacity>
     )
   }
 
   return (
     <View style={styles.container}>
-      <ActionButton
-  buttonColor="rgba(231,76,60,1)"
-  onPress={() => { console.log("hi")}}
-/>
+
       {!isLoading ?
 
 
-      <FlatList
-        style={{width: '100%'}}
-        data={items}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString() }
-      /> 
-      
-      :
+        <FlatList
+          style={{ width: '100%' }}
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+
+        :
 
 
-      <SkypeIndicator color="black"/>
+        <SkypeIndicator color="black" />
 
 
       }
+      <ActionButton
+        buttonColor="rgba(231,76,60,1)"
+        onPress={() => props.navigation.navigate("PostOffer")}
+      />
     </View>
   );
 }
@@ -123,8 +124,12 @@ const styles = StyleSheet.create(
 
   {
     listItem: {
-      marginTop: 30,
-      width: "100%",
+      margin: 15,
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center',
+      width: "90%",
+      borderRadius: 20,
       height: 100,
       shadowColor: "#000",
       shadowOffset: {
