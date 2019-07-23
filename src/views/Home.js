@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
   FlatList,
   Text,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 
 import {
@@ -13,35 +14,81 @@ import {
 } from 'react-native-ui-kitten';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import firebase from '../../firebase'
+
 const mylist = [
   {
-    id: "232",
     name: "wf",
+    uni: 'Sunway',
+    members: [],
   },
   {
-    id: "2311",
-    name: "rice",
+    name: "wf",
+    uni: 'Sunway',
+    members: [],
   },
   {
-    id: "23223",
-    name: "rice",
-  }
+    name: "wf",
+    uni: 'Sunway',
+    members: [],
+  },
 ]
 function renderItem({ item, index }) {
   return (
 
     <View style={styles.listItem}>
-      <Text>helllo</Text>
+      <Text>{item.name}</Text>
+      <Text>{item.uni}</Text>
+
     </View>
   )
 }
 
+
 function App(props) {
+  const [items, setItems] = useState([])
+  const [isLoading, setLoading] = useState(true)
+
+  useEffect(() => {
+      getData()
+    }, [])
+
+  const checkDone = () => {
+    if (isLoading) {
+      console.log(JSON.stringify(items))
+    }
+  }
+
+  const getData = () => {
+    firebase
+      .database()
+      .ref()
+      .child("teams")
+      .on('value', snap => {
+        if(snap !== null) {
+          snap.forEach(item => {
+            const data = item.val()
+            var payload = {
+              name: data.name,
+              uni: data.uni,
+              members: data.members
+            }
+            const list = items
+            list.push(payload)
+            setItems(list)
+            setLoading(false)
+          });
+          checkDone()
+
+        }
+      })
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
         style={{width: '100%'}}
-        data={mylist}
+        data={items}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       />

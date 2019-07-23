@@ -57,7 +57,7 @@ function App(props) {
         Submit
         </Button>
         <Button 
-        onPress={() => props.navigation.navigate('Login')}
+        onPress={() =>  props.navigation.navigate('Login')}
 
         appearance="ghost">
         Back
