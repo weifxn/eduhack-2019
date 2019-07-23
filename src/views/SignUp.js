@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 
 import Input from '../components/myInput';
@@ -17,6 +18,11 @@ function App(props) {
   return (
     <ScrollView>
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+    <Image
+          style={{ width: 100, height: 100, margin:-10 }}
+          source={require('../assets/icon.png')}
+        />
+     
       <Text style={{margin: 40, fontSize: 20}}>Sign Up</Text>
       
 

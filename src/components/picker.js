@@ -1,66 +1,62 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Dimensions, Picker, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-ui-kitten';
+import Modal from "react-native-modal";
+
+
 var { height, width } = Dimensions.get('window');
 
 export default MyPicker = (props) => {
     const [val, setVal] = useState('M')
     return (
-        <View style={styles.container}>
-            {props.show &&
-                <TouchableWithoutFeedback
-                    style={{ zIndex: 4, height: height, width: width, alignItems: 'center', position: 'absolute' }}
-                    onPress={props.close}
-                >
-                    <View style={{ zIndex: 4, height: height, width: width, alignItems: 'center', position: 'absolute', backgroundColor: 'rgba(0,0,0,0.2)' }}>
+        <Modal
+            animationIn="slideInRight"
+            animationOut="slideOutRight"
+            backdropTransitionInTiming={800}
+            backdropTransitionOutTiming={800}
+            onBackdropPress={props.close}
+            isVisible={props.show}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={styles.picker}>
 
-                        <View style={styles.picker}>
+                    <Picker
+                        onValueChange={(itemValue, itemIndex) =>
+                            setVal(itemValue)
+                        }
+                        selectedValue={val}
+                        style={{ height: 200, width: 200 }}
+                    >
+                        {props.data && props.data.map((val, i) => (
+                            <Picker.Item key={i} label={val.label} value={val.value} />
+                        ))}
 
-                            <Picker
-                                onValueChange={(itemValue, itemIndex) =>
-                                    setVal(itemValue)
-                                } 
-                                selectedValue={val}
-                                style={{ height: 200, width: 200 }}
-                            >
-                                {props.data && props.data.map((val, i) => (
-                                    <Picker.Item key={i} label={val.label} value={val.value} />
-                                ))}
+                    </Picker>
+                    <Button
+                        onPress={() => props.submit(val)}
 
-                            </Picker>
-                            <Button
-                                onPress={() =>props.submit(val)}
-
-                                style={{ margin: 10, marginTop: 40 }}>
-                                Submit
+                        style={{ margin: 10, marginTop: 40 }}>
+                        Submit
           </Button>
-                            <Button
-                                onPress={props.close}
+                    <Button
+                        onPress={props.close}
 
-                                appearance="ghost">
-                                Back
+                        appearance="ghost">
+                        Back
           </Button>
-                        </View>
+                </View>
+            </View>
 
-                    </View>
-                </TouchableWithoutFeedback>
-            }
-        </View>
+        </Modal>
     )
 }
 
 const styles = StyleSheet.create(
     {
         container: {
-            zIndex: 4,
-            position: 'absolute',
-            top: 0,
-            left: 0,
+            alignItems: 'center',
         },
 
         picker: {
-            top: height / 4,
-            zIndex: 10,
             justifyContent: 'center',
             width: 200,
             height: 400,
@@ -69,15 +65,6 @@ const styles = StyleSheet.create(
             margin: 10,
             borderRadius: 40,
             textAlign: 'center',
-            shadowColor: "#000",
-            shadowOffset: {
-                width: 0,
-                height: 10,
-            },
-            shadowOpacity: 0.10,
-            shadowRadius: 10.00,
-
-            elevation: 10,
         }
     },
 

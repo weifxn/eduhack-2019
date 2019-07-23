@@ -12,7 +12,6 @@ import {
   Dimensions,
   Image
 } from 'react-native';
-import Timeline from 'react-native-timeline-listview'
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 var { height, width } = Dimensions.get('window');
@@ -119,9 +118,7 @@ function App(props) {
         <Text style={{ margin: 20, fontSize: 20 }}>
           Agenda
         </Text>
-        <Timeline
-          data={schedule}
-        />
+    
 
         <Button
          

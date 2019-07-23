@@ -11,7 +11,7 @@ import SignUpPage from './src/views/SignUp'
 import HomePage from './src/views/Home'
 import PostOfferPage from './src/views/PostOffer'
 import AgendaPage from './src/views/Agenda'
-
+import TicketPage from './src/views/Ticket'
 
 
 const RootStack = createStackNavigator({
@@ -20,6 +20,7 @@ const RootStack = createStackNavigator({
   Home: HomePage,
   Agenda: AgendaPage,
   PostOffer: PostOfferPage,
+  Ticket: TicketPage,
 }, {
     headerMode: 'none',
     initialRouteName: 'PostOffer'
