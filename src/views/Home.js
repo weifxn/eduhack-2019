@@ -8,6 +8,12 @@ import {
   Alert
 } from 'react-native';
 
+import ActionButton from 'react-native-action-button';
+
+import {
+  SkypeIndicator,
+} from 'react-native-indicators';
+
 import {
   List,
   ListItem,
@@ -33,16 +39,7 @@ const mylist = [
     members: [],
   },
 ]
-function renderItem({ item, index }) {
-  return (
 
-    <View style={styles.listItem}>
-      <Text>{item.name}</Text>
-      <Text>{item.uni}</Text>
-
-    </View>
-  )
-}
 
 
 function App(props) {
@@ -84,14 +81,40 @@ function App(props) {
       })
   }
 
+  function renderItem({ item, index }) {
+    return (
+  
+      <View style={styles.listItem}>
+        <Text>{item.name}</Text>
+        <Text>{item.uni}</Text>
+  
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
+      <ActionButton
+  buttonColor="rgba(231,76,60,1)"
+  onPress={() => { console.log("hi")}}
+/>
+      {!isLoading ?
+
+
       <FlatList
         style={{width: '100%'}}
         data={items}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-      />
+        keyExtractor={(item, index) => index.toString() }
+      /> 
+      
+      :
+
+
+      <SkypeIndicator color="black"/>
+
+
+      }
     </View>
   );
 }

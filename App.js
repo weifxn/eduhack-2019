@@ -23,7 +23,7 @@ const RootStack = createStackNavigator({
   Ticket: TicketPage,
 }, {
     headerMode: 'none',
-    initialRouteName: 'Home'
+    initialRouteName: 'Login'
   })
 
 const AppContainer = createAppContainer(RootStack);

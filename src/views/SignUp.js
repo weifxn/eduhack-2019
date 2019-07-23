@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { 
   StyleSheet, 
   Text, 
@@ -7,14 +7,30 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 
 import Input from '../components/myInput';
 import { Button } from 'react-native-ui-kitten';
-
+import firebase from '../../firebase'
 
 function App(props) {
+  const [username, setUsername] = useState()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+
+  const onSubmit = () => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(()=>{
+        props.navigation.navigate('Login')
+      })
+      .catch(error=> Alert.alert(error.message))
+
+    
+  }
   return (
     <ScrollView>
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -28,12 +44,13 @@ function App(props) {
 
       <Input 
         style={styles.textInput}
-
+        onChangeText={setUsername}
         autoCapitalize="none"
         placeholder="Username"
       />
       <Input 
         style={styles.textInput}
+        onChangeText={setEmail}
 
         autoCapitalize="none"
         placeholder="Email"
@@ -43,6 +60,7 @@ function App(props) {
         secureTextEntry={true}
         autoCapitalize="none"
         placeholder="Password"
+        onChangeText={setPassword}
       />
 
       <Input 
@@ -53,7 +71,9 @@ function App(props) {
         placeholder="Confirm Password"
       />
 
-      <Button style={{margin: 20}}>
+      <Button style={{margin: 20}}
+        onPress={onSubmit}
+      >
         Submit
         </Button>
         <Button 

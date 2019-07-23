@@ -12,16 +12,21 @@ import Input from '../components/myInput'
 
 import { Button } from 'react-native-ui-kitten';
 
+import firebase from '../../firebase'
 
 function App(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("weifxn@gmail.com");
+  const [password, setPassword] = useState("123123");
   
   function login() {
     // check if input is blank
-    if(username !== "" && password !== "") {
+    if(email !== "" && password !== "") {
       // to navigate home
-      props.navigation.navigate('PostOffer')  
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email,password)
+        .then(()=>props.navigation.navigate('Home'))
+        .catch(error=> Alert.alert(error.message))
 
     } else {
       // alert if input is blank
@@ -39,8 +44,8 @@ function App(props) {
         <Input
           style={styles.textInput}
           autoCapitalize="none"
-          placeholder="Username"
-          onChangeText={setUsername}
+          placeholder="Email"
+          onChangeText={setEmail}
         />
         <Input
           style={styles.textInput}
