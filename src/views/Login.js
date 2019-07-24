@@ -56,6 +56,8 @@ function App(props) {
     _storeData()
     setPassword("")
     setUsername("")
+    setLoading(false)
+
     props.navigation.navigate('Chat')
   }
   useEffect(() => {
