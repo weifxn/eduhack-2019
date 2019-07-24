@@ -17,7 +17,7 @@ import {
 import Firebase from '../../../firebase'
 import {
     SkypeIndicator,
-  } from 'react-native-indicators';
+} from 'react-native-indicators';
 
 import Moment from 'moment';
 
@@ -26,7 +26,7 @@ import { Button } from 'react-native-ui-kitten';
 import DateTimePicker from
     "react-native-modal-datetime-picker";
 
-    import Modal from "react-native-modal";
+import Modal from "react-native-modal";
 
 
 var { height, width } = Dimensions.get('window');
@@ -86,7 +86,7 @@ function App(props) {
     }
     const onChatSubmit = () => {
         const payload = {
-            message,   
+            message,
             name: yourName
         }
         setChat([payload, ...items])
@@ -97,7 +97,7 @@ function App(props) {
             .push(payload)
             .then(ref => {
             })
-    
+
         setMessage("")
 
     }
@@ -109,79 +109,78 @@ function App(props) {
         }
         setChat([payload, ...items])
         Firebase
-        .database()
-        .ref()
-        .child("chat")
-        .push(payload)
-        .then(ref => {
-        })
+            .database()
+            .ref()
+            .child("chat")
+            .push(payload)
+            .then(ref => {
+            })
         setMessage("")
 
     }
 
-  useEffect(() => {
-    getData()
-    _retrieveData()
+    useEffect(() => {
+        getData()
+        _retrieveData()
 
-  }, [])
+    }, [])
 
-  const checkDone = (list) => {
-    if (isLoading) {
-        setItems(list)
-
-    }
-  }
-
-  _storeData = async () => {
-    try {
-      await AsyncStorage.setItem('name', input);
-    } catch (error) {
-      // Error saving data
-    }
-  };
-  
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('name');
-      if (value !== null) {
-        // We have data!!
-        console.log(value);
-        setYourName(value);
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  };
-
-  const getData = () => {
-    Firebase
-      .database()
-      .ref()
-      .child("chat")
-      .on('value', snap => {
-        if (snap !== null) {
-            var list = []
-
-          snap.forEach(item => {
-            const data = item.val()
-
-            var payload = {
-              message: data.message,
-              name: data.name
-              
-            }
-            list = [payload, ...list]
-            setLoading(false)
-          });
-          checkDone(list)
+    const checkDone = (list) => {
+        if (isLoading) {
+            setItems(list)
 
         }
-      })
-  }
-  function submitName() {
-      setYourName(input)
-      _storeData()
-  }
+    }
+
+    _storeData = async () => {
+        try {
+            await AsyncStorage.setItem('name', input);
+        } catch (error) {
+            // Error saving data
+        }
+    };
+
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('name');
+            if (value !== null) {
+                // We have data!!
+                setYourName(value);
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+    };
+
+    const getData = () => {
+        Firebase
+            .database()
+            .ref()
+            .child("chat")
+            .on('value', snap => {
+                if (snap !== null) {
+                    var list = []
+
+                    snap.forEach(item => {
+                        const data = item.val()
+
+                        var payload = {
+                            message: data.message,
+                            name: data.name
+
+                        }
+                        list = [payload, ...list]
+                        setLoading(false)
+                    });
+                    checkDone(list)
+
+                }
+            })
+    }
+    function submitName() {
+        setYourName(input)
+        _storeData()
+    }
 
     function renderItem({ item, index }) {
         return (
@@ -189,29 +188,29 @@ function App(props) {
             <TouchableOpacity
                 onPress={() => deleteItem(index)}
             >
-                {item.name == yourName ? 
-                <View style={{ alignSelf: 'flex-end', width: width }}>
-                <View style={{ flexDirection: 'column', alignSelf: 'flex-end' }}>
-                <Text style={{textAlign:'right', fontWeight: 'bold', fontSize: 10,marginTop: 15, marginRight: 20, marginBottom:-2}}>{item.name}</Text>
+                {item.name == yourName ?
+                    <View style={{ alignSelf: 'flex-end', width: width }}>
+                        <View style={{ flexDirection: 'column', alignSelf: 'flex-end' }}>
+                            <Text style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 10, marginTop: 15, marginRight: 20, marginBottom: -2 }}>{item.name}</Text>
 
-                    <View style={styles.sizeInput}>
+                            <View style={styles.sizeInput}>
 
-                        <Text>{item.message}</Text>
+                                <Text>{item.message}</Text>
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
-                :
-                <View style={{ alignSelf: 'flex-start', width: width }}>
-                <View style={{ flexDirection: 'column', alignSelf: 'flex-start' }}>
-                <Text style={{textAlign:'left', fontWeight: 'bold', fontSize: 10,marginTop: 15, marginLeft: 20, marginBottom:-2}}>{item.name}</Text>
-                    <View style={styles.sizeInput}>
-                        <Text>{item.message}</Text>
+                    :
+                    <View style={{ alignSelf: 'flex-start', width: width }}>
+                        <View style={{ flexDirection: 'column', alignSelf: 'flex-start' }}>
+                            <Text style={{ textAlign: 'left', fontWeight: 'bold', fontSize: 10, marginTop: 15, marginLeft: 20, marginBottom: -2 }}>{item.name}</Text>
+                            <View style={styles.sizeInput}>
+                                <Text>{item.message}</Text>
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
-                
+
                 }
-            </TouchableOpacity> 
+            </TouchableOpacity>
 
         )
     }
@@ -248,81 +247,81 @@ function App(props) {
                 source={require('../../assets/icon.png')}
             />
 
-            
- {!isLoading ?
+
+            {!isLoading ?
 
 
-<FlatList
-            inverted={true}
-                style={{ paddingBottom: 20, flex: 1, }}
-                renderItem={renderItem}
-                keyExtractor={(v, index) => index.toString()}
-                data={items}
+                <FlatList
+                    inverted={true}
+                    style={{ paddingBottom: 20, flex: 1, }}
+                    renderItem={renderItem}
+                    keyExtractor={(v, index) => index.toString()}
+                    data={items}
 
 
-            />
+                />
 
-:
-
-
-<SkypeIndicator color="black" />
+                :
 
 
-}
+                <SkypeIndicator color="black" />
+
+
+            }
 
 
             <KeyboardAvoidingView behavior="padding" enabled>
 
 
-                <View style={{flexDirection: 'row'}}>
-                <Input
-                    value={message}
-                    style={styles.textInput}
-                    placeholder="Enter message"
-                    onChangeText={setMessage}
-                    onSubmitEditing={onChatSubmit}
-                    blurOnSubmit={false}
-                    keyboardAppearance="light"
+                <View style={{ flexDirection: 'row' }}>
+                    <Input
+                        value={message}
+                        style={styles.textInput}
+                        placeholder="Enter message"
+                        onChangeText={setMessage}
+                        onSubmitEditing={onChatSubmit}
+                        blurOnSubmit={false}
+                        keyboardAppearance="light"
 
-                />
-                <TouchableOpacity
-                onPress={onOtherChatSubmit}>
-                    <View style={styles.button}>
+                    />
+                    <TouchableOpacity
+                        onPress={onOtherChatSubmit}>
+                        <View style={styles.button}>
 
-                    </View>
-                </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
             </KeyboardAvoidingView>
 
 
 
-           {
-             !yourName  &&  <Modal isVisible={true} >
-                             <KeyboardAvoidingView style={{borderRadius: 20, padding: 50, backgroundColor: 'white', alignItems: 'center', justifyContent:'center'}} behavior="padding" enabled>
+            {
+                !yourName && <Modal isVisible={true} >
+                    <KeyboardAvoidingView style={{ borderRadius: 20, padding: 50, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }} behavior="padding" enabled>
 
 
-         <Image
-                style={{ width: 100, height: 100, margin: 5 }}
-                source={require('../../assets/icon.png')}
-            />
-        <Text style={{fontWeight: 'bold', margin: 0, fontSize: 30, color: '#111'}}>Hello! Enter your nickname </Text>
+                        <Image
+                            style={{ width: 100, height: 100, margin: 5 }}
+                            source={require('../../assets/icon.png')}
+                        />
+                        <Text style={{ fontWeight: 'bold', margin: 0, fontSize: 30, color: '#111' }}>Hello! Enter your nickname </Text>
 
 
-    <Input
-value={input}
-style={styles.nameInput}
-placeholder="Batman, Tarantino, Frank Ocean or whatever"
-onChangeText={setInput}
-onSubmitEditing={submitName}
+                        <Input
+                            value={input}
+                            style={styles.nameInput}
+                            placeholder="Batman, Tarantino, Frank Ocean or whatever"
+                            onChangeText={setInput}
+                            onSubmitEditing={submitName}
 
-keyboardAppearance="light"
-    />
-    
+                            keyboardAppearance="light"
+                        />
 
-    </KeyboardAvoidingView>
+
+                    </KeyboardAvoidingView>
                 </Modal>
-           }
+            }
 
         </View>
 

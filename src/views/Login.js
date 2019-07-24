@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
   Image,
   Text,
   KeyboardAvoidingView,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 
 import Input from '../components/myInput'
@@ -15,18 +16,31 @@ import { Button } from 'react-native-ui-kitten';
 import firebase from '../../firebase'
 
 function App(props) {
-  const [email, setEmail] = useState("weifxn@gmail.com");
+  const [username, setUsername] = useState("wf");
   const [password, setPassword] = useState("123123");
-  
+
   function login() {
     // check if input is blank
-    if(email !== "" && password !== "") {
+    if (username !== "" && password !== "") {
       // to navigate home
       firebase
-        .auth()
-        .signInWithEmailAndPassword(email,password)
-        .then(()=>props.navigation.navigate('Home'))
-        .catch(error=> Alert.alert(error.message))
+        .database()
+        .ref()
+        .child('users')
+        .child(username)
+        .once('value', function (snapshot) {
+          if (snapshot.exists()) {
+            var email = (snapshot.val() && snapshot.val().email);
+            firebase
+              .auth()
+              .signInWithEmailAndPassword(email, password)
+              .then(() => loginSuccess())
+              .catch(error => Alert.alert(error.message))
+          }
+        })
+        .catch(error => Alert.alert(error.message))
+
+
 
     } else {
       // alert if input is blank
@@ -34,27 +48,56 @@ function App(props) {
     }
   }
 
+  function loginSuccess() {
+    _storeData()
+    props.navigation.navigate('Chat')
+  }
+  useEffect(() => {
+    _retrieveData()
+
+}, [])
+
+
+  _storeData = async () => {
+    try {
+      await AsyncStorage.setItem('name', username);
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('name');
+      if (value !== null) {
+        // We have data!!
+        props.navigation.navigate('Chat')
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 
       <Image
-          style={{ width: 250, height: 200, margin: 50 }}
-          source={require('../assets/logo.png')}
-        />
-        <Input
-          style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="Email"
-          onChangeText={setEmail}
-        />
-        <Input
-          style={styles.textInput}
-          secureTextEntry={true}
-          autoCapitalize="none"
-          placeholder="Password"
-          onChangeText={setPassword}
-          onSubmitEditing={login}
-        />
+        style={{ width: 250, height: 200, margin: 50 }}
+        source={require('../assets/logo.png')}
+      />
+      <Input
+        style={styles.textInput}
+        autoCapitalize="none"
+        placeholder="Username"
+        onChangeText={setUsername}
+      />
+      <Input
+        style={styles.textInput}
+        secureTextEntry={true}
+        autoCapitalize="none"
+        placeholder="Password"
+        onChangeText={setPassword}
+        onSubmitEditing={login}
+      />
 
       <Button
         onPress={login}
@@ -64,8 +107,8 @@ function App(props) {
       </Button>
 
       <Button
-          onPress={() => props.navigation.navigate('SignUp')}
-          appearance="ghost" >
+        onPress={() => props.navigation.navigate('SignUp')}
+        appearance="ghost" >
         Sign Up
     </Button>
     </KeyboardAvoidingView>
