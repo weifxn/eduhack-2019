@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 var { height, width } = Dimensions.get('window');
 
 export default MyPicker = (props) => {
-    const [val, setVal] = useState('M')
+    const [val, setVal] = useState(props.data[0].value)
     return (
         <Modal
             animationIn="slideInRight"

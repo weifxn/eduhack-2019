@@ -94,7 +94,6 @@ function App(props) {
 
   return (
     <View style={styles.container}>
-
       {!isLoading ?
 
 

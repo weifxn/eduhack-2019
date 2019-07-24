@@ -12,6 +12,9 @@ import HomePage from './src/views/Home'
 import PostOfferPage from './src/views/PostOffer'
 import AgendaPage from './src/views/Agenda'
 import TicketPage from './src/views/Ticket'
+import ChatPage from './src/views/Chat'
+
+
 
 
 const RootStack = createStackNavigator({
@@ -21,9 +24,10 @@ const RootStack = createStackNavigator({
   Agenda: AgendaPage,
   PostOffer: PostOfferPage,
   Ticket: TicketPage,
+  Chat: ChatPage
 }, {
     headerMode: 'none',
-    initialRouteName: 'Home'
+    initialRouteName: 'Chat'
   })
 
 const AppContainer = createAppContainer(RootStack);

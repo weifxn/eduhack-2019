@@ -16,7 +16,7 @@ import { Button } from 'react-native-ui-kitten';
 import firebase from '../../firebase'
 
 function App(props) {
-  const [username, setUsername] = useState()
+  const [name, setName] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
 
@@ -44,9 +44,9 @@ function App(props) {
 
       <Input 
         style={styles.textInput}
-        onChangeText={setUsername}
+        onChangeText={setName}
         autoCapitalize="none"
-        placeholder="Username"
+        placeholder="Name"
       />
       <Input 
         style={styles.textInput}
