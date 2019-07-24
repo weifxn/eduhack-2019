@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, Dimensions, Picker, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Dimensions, Picker, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-ui-kitten';
-import Modal from "react-native-modal";
+import Modal from "modal-enhanced-react-native-web";
 
 
 var { height, width } = Dimensions.get('window');
 
-export default MyPicker = (props) => {
+const MyPicker = (props) => {
     const [val, setVal] = useState(props.data[0].value)
     return (
         <Modal
-            animationIn="slideInRight"
-            animationOut="slideOutRight"
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
             backdropTransitionInTiming={800}
             backdropTransitionOutTiming={800}
             onBackdropPress={props.close}
@@ -24,7 +24,7 @@ export default MyPicker = (props) => {
                             setVal(itemValue)
                         }
                         selectedValue={val}
-                        style={{ height: 200, width: 200 }}
+                        style={{ height: 200, width: 100 }}
                     >
                         {props.data && props.data.map((val, i) => (
                             <Picker.Item key={i} label={val.label} value={val.value} />
@@ -71,3 +71,5 @@ const styles = StyleSheet.create(
 
 
 );
+
+export default MyPicker

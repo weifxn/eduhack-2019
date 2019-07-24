@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import Firebase from '../../firebase'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-var { height, width } = Dimensions.get('window');
 
 import Moment from 'moment';
 
@@ -22,7 +21,9 @@ import Input from '../components/myInput';
 import { Button } from 'react-native-ui-kitten';
 import DateTimePicker from
   "react-native-modal-datetime-picker";
-import Picker from '../components/picker'
+import Picker from '../components/Picker/index'
+var { height, width } = Dimensions.get('window');
+
 
 const data = [
   {

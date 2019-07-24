@@ -15,8 +15,6 @@ import {
     Alert
 } from 'react-native';
 import Firebase from '../../firebase'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-var { height, width } = Dimensions.get('window');
 
 import Moment from 'moment';
 
@@ -24,7 +22,8 @@ import Input from '../components/myInput';
 import { Button } from 'react-native-ui-kitten';
 import DateTimePicker from
     "react-native-modal-datetime-picker";
-import Picker from '../components/picker'
+var { height, width } = Dimensions.get('window');
+
 
 const data = [
     {
@@ -108,6 +107,17 @@ function App(props) {
 
     }
 
+    const onOtherChatSubmit = () => {
+        const payload = {
+            message,
+            isYou: false,
+        }
+        setChat([payload, ...chat])
+    
+        setMessage("")
+
+    }
+
     function renderItem({ item, index }) {
         return (
 
@@ -165,27 +175,19 @@ function App(props) {
 
         <View keyboardShouldPersistTaps="always" style={{ flex: 1, alignItems: 'center' }}>
 
-            <Picker
-                data={data}
-                show={showPicker}
-                close={() => setShowPicker(false)}
-                submit={(val) => submitSize(val)} />
 
             <Image
-                style={{ width: 100, height: 100, margin: -10 }}
+                style={{ width: 100, height: 100, margin: 50 }}
                 source={require('../assets/icon.png')}
             />
 
-            <Text style={{ margin: 20, fontSize: 20 }}>
-                todo
-        </Text>
             <FlatList
             inverted={true}
                 style={{ paddingBottom: 20, flex: 1, }}
                 renderItem={renderItem}
                 keyExtractor={(v, index) => index.toString()}
                 data={chat}
-                extraData={this.state}
+
 
             />
 
@@ -202,10 +204,11 @@ function App(props) {
                     onChangeText={setMessage}
                     onSubmitEditing={onChatSubmit}
                     blurOnSubmit={false}
+                    keyboardAppearance="light"
 
                 />
                 <TouchableOpacity
-                onPress={onChatSubmit}>
+                onPress={onOtherChatSubmit}>
                     <View style={styles.button}>
 
                     </View>

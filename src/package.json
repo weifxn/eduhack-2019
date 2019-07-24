@@ -1,12 +1,16 @@
 {
-  "name": "create-react-app-example",
-  "version": "0.1.0",
-  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
   "dependencies": {
     "@eva-design/eva": "^1.0.1",
     "expo": "^33.0.0",
     "firebase": "^6.3.1",
-    "modal-enhanced-react-native-web": "^0.2.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -25,25 +29,10 @@
     "react-native-ui-kitten": "^4.1.0",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.1",
-    "react-navigation-hooks": "^1.0.1",
-    "react-scripts": "2.1.8"
+    "react-navigation-hooks": "^1.0.1"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "babel-preset-expo": "^5.1.1"
-  }
+  },
+  "private": true
 }
