@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text,
@@ -15,6 +15,9 @@ import {
     Alert
 } from 'react-native';
 import Firebase from '../../firebase'
+import {
+    SkypeIndicator,
+  } from 'react-native-indicators';
 
 import Moment from 'moment';
 
@@ -55,6 +58,7 @@ function App(props) {
     Moment.locale('en');
     const [name, setName] = useState(false);
     const [uni, setUni] = useState(false);
+    const [yourName, setYourName] = useState("wf");
 
     const [dateVisible, setDateVisible] = useState(false);
     const [showPicker, setShowPicker] = useState(false);
@@ -64,6 +68,8 @@ function App(props) {
 
     const [chat, setChat] = useState([])
     const [message, setMessage] = useState("")
+    const [isLoading, setLoading] = useState(true)
+    const [items, setItems] = useState([])
 
 
     function pickSize(index) {
@@ -98,10 +104,17 @@ function App(props) {
     }
     const onChatSubmit = () => {
         const payload = {
-            message,
-            isYou: true,
+            message,   
+            name: yourName
         }
-        setChat([payload, ...chat])
+        setChat([payload, ...items])
+        Firebase
+            .database()
+            .ref()
+            .child("chat")
+            .push(payload)
+            .then(ref => {
+            })
     
         setMessage("")
 
@@ -110,13 +123,58 @@ function App(props) {
     const onOtherChatSubmit = () => {
         const payload = {
             message,
-            isYou: false,
+            name: "test"
         }
-        setChat([payload, ...chat])
-    
+        setChat([payload, ...items])
+        Firebase
+        .database()
+        .ref()
+        .child("chat")
+        .push(payload)
+        .then(ref => {
+        })
         setMessage("")
 
     }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  const checkDone = (list) => {
+    if (isLoading) {
+        setItems(list)
+
+      console.log(JSON.stringify(items))
+    }
+  }
+
+  const getData = () => {
+    Firebase
+      .database()
+      .ref()
+      .child("chat")
+      .on('value', snap => {
+        if (snap !== null) {
+            var list = []
+
+          snap.forEach(item => {
+            const data = item.val()
+            console.log(JSON.stringify(data))
+
+            var payload = {
+              message: data.message,
+              name: data.name
+              
+            }
+            list.push(payload)
+            setLoading(false)
+          });
+          checkDone(list)
+
+        }
+      })
+  }
 
     function renderItem({ item, index }) {
         return (
@@ -124,7 +182,16 @@ function App(props) {
             <TouchableOpacity
                 onPress={() => deleteItem(index)}
             >
-                {!item.isYou ? 
+                {item.name == yourName ? 
+                <View style={{ alignSelf: 'flex-end', width: width }}>
+                <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+                    <View></View>
+                    <View style={styles.sizeInput}>
+                        <Text>{item.message}</Text>
+                    </View>
+                </View>
+            </View>
+                :
                 <View style={{ alignSelf: 'flex-start', width: width }}>
                 <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
                     <View></View>
@@ -133,15 +200,7 @@ function App(props) {
                     </View>
                 </View>
             </View>
-                :
-                <View style={{ alignSelf: 'flex-end', width: width }}>
-                    <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-                        <View></View>
-                        <View style={styles.sizeInput}>
-                            <Text>{item.message}</Text>
-                        </View>
-                    </View>
-                </View>
+                
                 }
             </TouchableOpacity> 
 
@@ -181,16 +240,27 @@ function App(props) {
                 source={require('../assets/icon.png')}
             />
 
-            <FlatList
+            
+ {!isLoading ?
+
+
+<FlatList
             inverted={true}
                 style={{ paddingBottom: 20, flex: 1, }}
                 renderItem={renderItem}
                 keyExtractor={(v, index) => index.toString()}
-                data={chat}
+                data={items}
 
 
             />
 
+:
+
+
+<SkypeIndicator color="black" />
+
+
+}
 
 
             <KeyboardAvoidingView behavior="padding" enabled>
@@ -257,7 +327,6 @@ const styles = StyleSheet.create(
             backgroundColor: 'white',
             margin: 10,
             borderRadius: 20,
-            textAlign: 'center',
             shadowColor: "#000",
             shadowOffset: {
                 width: 0,

@@ -9,7 +9,7 @@ import { ApplicationProvider, Layout } from 'react-native-ui-kitten';
 import LoginPage from './src/views/Login'
 import SignUpPage from './src/views/SignUp'
 import HomePage from './src/views/Home'
-import PostOfferPage from './src/views/PostOffer'
+import PostOfferPage from './src/views/PostOffer/index'
 import AgendaPage from './src/views/Agenda'
 import TicketPage from './src/views/Ticket'
 import ChatPage from './src/views/Chat'
@@ -22,12 +22,12 @@ const RootStack = createStackNavigator({
   SignUp: SignUpPage,
   Home: HomePage,
   Agenda: AgendaPage,
-  PostOffer: PostOfferPage,
+  Post: PostOfferPage,
   Ticket: TicketPage,
   Chat: ChatPage
 }, {
     headerMode: 'none',
-    initialRouteName: 'Login'
+    initialRouteName: 'Chat'
   })
 
 const AppContainer = createAppContainer(RootStack);

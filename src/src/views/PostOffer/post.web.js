@@ -12,16 +12,15 @@ import {
   Dimensions,
   Image
 } from 'react-native';
-import Firebase from '../../firebase'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Firebase from '../../../firebase'
 
 import Moment from 'moment';
 
-import Input from '../components/myInput';
+import Input from '../../components/myInput';
 import { Button } from 'react-native-ui-kitten';
 import DateTimePicker from
   "react-native-modal-datetime-picker";
-import Picker from '../components/Picker/index'
+import Picker from '../../components/Picker/index'
 var { height, width } = Dimensions.get('window');
 
 
@@ -126,7 +125,7 @@ function App(props) {
   }
   return (
 
-    <KeyboardAwareScrollView contentContainerStyle={styles.container} behavior="padding" enabled>
+    <ScrollView contentContainerStyle={styles.container}>
 
       <Picker
         data={data}
@@ -136,7 +135,7 @@ function App(props) {
 
       <Image
         style={{ width: 100, height: 100, margin: -10 }}
-        source={require('../assets/icon.png')}
+        source={require('../../assets/icon.png')}
       />
 
       <Text style={{ margin: 20, fontSize: 20 }}>
@@ -160,7 +159,7 @@ function App(props) {
       />
 
       <FlatList
-        style={{ flexGrow: 0, paddingBottom: 20 }}
+        style={{ paddingBottom: 20 }}
         renderItem={renderItem}
         keyExtractor={(v, index) => index.toString()}
         data={memberList}
@@ -186,7 +185,7 @@ function App(props) {
         Back
         </Button>
 
-    </KeyboardAwareScrollView>
+    </ScrollView>
 
   );
 }
@@ -195,11 +194,12 @@ const styles = StyleSheet.create(
 
   {
     container: {
-      flex: 1,
-      paddingTop: 20,
-      alignItems: 'center',
-      paddingHorizontal: 30,
-      height: height + 200
+     
+        
+
+        alignItems: 'center',
+        justifyContent: 'center',
+
     },
 
     dateText: {

@@ -22,25 +22,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import firebase from '../../firebase'
 
-const mylist = [
-  {
-    name: "wf",
-    uni: 'Sunway',
-    members: [],
-  },
-  {
-    name: "wf",
-    uni: 'Sunway',
-    members: [],
-  },
-  {
-    name: "wf",
-    uni: 'Sunway',
-    members: [],
-  },
-]
-
-
 
 function App(props) {
   const [items, setItems] = useState([])
@@ -113,7 +94,7 @@ function App(props) {
       }
       <ActionButton
         buttonColor="rgba(231,76,60,1)"
-        onPress={() => props.navigation.navigate("PostOffer")}
+        onPress={() => props.navigation.navigate("Post")}
       />
     </View>
   );
