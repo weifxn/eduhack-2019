@@ -191,7 +191,7 @@ function App(props) {
                 {item.name == yourName ?
                     <View style={{ alignSelf: 'flex-end', width: width }}>
                         <View style={{ flexDirection: 'column', alignSelf: 'flex-end' }}>
-                            <Text style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 10, marginTop: 15, marginRight: 20, marginBottom: -2 }}>{item.name}</Text>
+                            <Text style={{ textAlign: 'right', fontWeight: 'bold', fontSize: 10, marginTop: 5, marginRight: 20, }}>{item.name}</Text>
 
                             <View style={styles.sizeInput}>
 
@@ -202,7 +202,7 @@ function App(props) {
                     :
                     <View style={{ alignSelf: 'flex-start', width: width }}>
                         <View style={{ flexDirection: 'column', alignSelf: 'flex-start' }}>
-                            <Text style={{ textAlign: 'left', fontWeight: 'bold', fontSize: 10, marginTop: 15, marginLeft: 20, marginBottom: -2 }}>{item.name}</Text>
+                            <Text style={{ textAlign: 'left', fontWeight: 'bold', fontSize: 10, marginTop: 15, marginLeft: 20,  }}>{item.name}</Text>
                             <View style={styles.sizeInput}>
                                 <Text>{item.message}</Text>
                             </View>

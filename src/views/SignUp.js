@@ -36,14 +36,14 @@ function App(props) {
           .child(username)
           .set(payload)
           .then(()=>props.navigation.navigate('Login'))
-
+          .catch(error=> Alert.alert(error.message))
       })
       .catch(error=> Alert.alert(error.message))
 
     
   }
   return (
-    <ScrollView>
+
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
     <Image
           style={{ width: 100, height: 100, margin:-10 }}
@@ -96,7 +96,7 @@ function App(props) {
         Back
         </Button>
     </KeyboardAvoidingView>
-    </ScrollView>
+
   );
 }
 
