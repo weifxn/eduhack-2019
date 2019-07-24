@@ -8,7 +8,9 @@ import {
   Alert,
   AsyncStorage
 } from 'react-native';
-
+import {
+  SkypeIndicator,
+} from 'react-native-indicators';
 import Input from '../components/myInput'
 
 import { Button } from 'react-native-ui-kitten';
@@ -16,13 +18,15 @@ import { Button } from 'react-native-ui-kitten';
 import firebase from '../../firebase'
 
 function App(props) {
-  const [username, setUsername] = useState("wf");
-  const [password, setPassword] = useState("123123");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   function login() {
     // check if input is blank
     if (username !== "" && password !== "") {
       // to navigate home
+      setLoading(true)
       firebase
         .database()
         .ref()
@@ -50,10 +54,12 @@ function App(props) {
 
   function loginSuccess() {
     _storeData()
+    setPassword("")
+    setUsername("")
     props.navigation.navigate('Chat')
   }
   useEffect(() => {
-    // _retrieveData()
+    _retrieveData()
 
 }, [])
 
@@ -84,13 +90,20 @@ function App(props) {
         style={{ width: 250, height: 200, margin: 50 }}
         source={require('../assets/logo.png')}
       />
-      <Input
+      {isLoading ? 
+                      <SkypeIndicator color="black" />
+:
+<View style={{width: '100%', alignItems: 'center'}}>
+<Input
+        value={username}
         style={styles.textInput}
         autoCapitalize="none"
         placeholder="Username"
         onChangeText={setUsername}
       />
       <Input
+      
+        value={password}
         style={styles.textInput}
         secureTextEntry={true}
         autoCapitalize="none"
@@ -105,6 +118,9 @@ function App(props) {
       >
         Login
       </Button>
+</View>  
+    }
+     
 
       <Button
         onPress={() => props.navigation.navigate('SignUp')}

@@ -214,12 +214,14 @@ function App(props) {
 
         )
     }
+    function signOut() {
+        AsyncStorage.clear();
+
+        props.navigation.navigate('Login')
+    }
     function deleteItem(index) {
 
 
-        Alert.alert(JSON.stringify(chat))
-
-        setChat(chat.splice(index, 1))
 
 
     }
@@ -241,11 +243,15 @@ function App(props) {
 
         <View keyboardShouldPersistTaps="always" style={{ flex: 1, alignItems: 'center' }}>
 
+            <TouchableOpacity
+                onPress={signOut}
+            >
 
             <Image
                 style={{ width: 100, height: 100, margin: 5 }}
                 source={require('../../assets/icon.png')}
             />
+            </TouchableOpacity>
 
 
             {!isLoading ?

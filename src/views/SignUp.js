@@ -80,6 +80,8 @@ function App(props) {
         secureTextEntry={true}
         autoCapitalize="none"
         placeholder="Confirm Password"
+        onSubmitEditing={onSubmit}
+
       />
 
       <Button style={{margin: 20}}
