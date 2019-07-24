@@ -53,7 +53,7 @@ function App(props) {
     props.navigation.navigate('Chat')
   }
   useEffect(() => {
-    _retrieveData()
+    // _retrieveData()
 
 }, [])
 

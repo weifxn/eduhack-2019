@@ -16,7 +16,7 @@ import { Button } from 'react-native-ui-kitten';
 import firebase from '../../firebase'
 
 function App(props) {
-  const [name, setName] = useState()
+  const [username, setUsername] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
 
@@ -25,7 +25,18 @@ function App(props) {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(()=>{
-        props.navigation.navigate('Login')
+        const payload = {
+          email,
+          username
+        }
+        firebase
+          .database()
+          .ref()
+          .child('users')
+          .child(username)
+          .set(payload)
+          .then(()=>props.navigation.navigate('Login'))
+
       })
       .catch(error=> Alert.alert(error.message))
 
@@ -44,9 +55,9 @@ function App(props) {
 
       <Input 
         style={styles.textInput}
-        onChangeText={setName}
+        onChangeText={setUsername}
         autoCapitalize="none"
-        placeholder="Name"
+        placeholder="Username"
       />
       <Input 
         style={styles.textInput}

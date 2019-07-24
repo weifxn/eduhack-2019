@@ -27,7 +27,7 @@ const RootStack = createStackNavigator({
   Chat: ChatPage
 }, {
     headerMode: 'none',
-    initialRouteName: 'SignUp'
+    initialRouteName: 'Login'
   })
 
 const AppContainer = createAppContainer(RootStack);
