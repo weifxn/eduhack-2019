@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Text,
@@ -14,48 +14,34 @@ import {
     Image,
     Alert
 } from 'react-native';
-import Firebase from '../../firebase'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-var { height, width } = Dimensions.get('window');
+import Firebase from '../../../firebase'
+import {
+    SkypeIndicator,
+  } from 'react-native-indicators';
 
 import Moment from 'moment';
 
-import Input from '../components/myInput';
+import Input from '../../components/myInput';
 import { Button } from 'react-native-ui-kitten';
 import DateTimePicker from
     "react-native-modal-datetime-picker";
-import Picker from '../components/picker'
 
-const data = [
-    {
-        label: "XS",
-        value: "XS",
-    },
-    {
-        label: "S",
-        value: "S",
-    },
-    {
-        label: "M",
-        value: "M",
-    },
-    {
-        label: "L",
-        value: "L",
-    },
-    {
-        label: "XL",
-        value: "XL",
-    },
-]
+    import Modal from "react-native-modal";
+
+
+var { height, width } = Dimensions.get('window');
+
 
 const initialMember = [{ name: '', size: 'M' }, { name: 'wf', size: 'S' },]
 
 
 function App(props) {
     Moment.locale('en');
+    const [input, setInput] = useState();
+
     const [name, setName] = useState(false);
     const [uni, setUni] = useState(false);
+    const [yourName, setYourName] = useState();
 
     const [dateVisible, setDateVisible] = useState(false);
     const [showPicker, setShowPicker] = useState(false);
@@ -65,6 +51,8 @@ function App(props) {
 
     const [chat, setChat] = useState([])
     const [message, setMessage] = useState("")
+    const [isLoading, setLoading] = useState(true)
+    const [items, setItems] = useState([])
 
 
     function pickSize(index) {
@@ -92,21 +80,108 @@ function App(props) {
             .child("teams")
             .push(payload)
             .then(ref => {
-                console.log(ref.key);
                 resetData();
                 props.navigation.navigate('Ticket')
             })
     }
     const onChatSubmit = () => {
         const payload = {
-            message,
-            isYou: true,
+            message,   
+            name: yourName
         }
-        setChat([payload, ...chat])
+        setChat([payload, ...items])
+        Firebase
+            .database()
+            .ref()
+            .child("chat")
+            .push(payload)
+            .then(ref => {
+            })
     
         setMessage("")
 
     }
+
+    const onOtherChatSubmit = () => {
+        const payload = {
+            message,
+            name: yourName
+        }
+        setChat([payload, ...items])
+        Firebase
+        .database()
+        .ref()
+        .child("chat")
+        .push(payload)
+        .then(ref => {
+        })
+        setMessage("")
+
+    }
+
+  useEffect(() => {
+    getData()
+    _retrieveData()
+
+  }, [])
+
+  const checkDone = (list) => {
+    if (isLoading) {
+        setItems(list)
+
+    }
+  }
+
+  _storeData = async () => {
+    try {
+      await AsyncStorage.setItem('name', input);
+    } catch (error) {
+      // Error saving data
+    }
+  };
+  
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('name');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+        setYourName(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  const getData = () => {
+    Firebase
+      .database()
+      .ref()
+      .child("chat")
+      .on('value', snap => {
+        if (snap !== null) {
+            var list = []
+
+          snap.forEach(item => {
+            const data = item.val()
+
+            var payload = {
+              message: data.message,
+              name: data.name
+              
+            }
+            list = [payload, ...list]
+            setLoading(false)
+          });
+          checkDone(list)
+
+        }
+      })
+  }
+  function submitName() {
+      setYourName(input)
+      _storeData()
+  }
 
     function renderItem({ item, index }) {
         return (
@@ -114,24 +189,27 @@ function App(props) {
             <TouchableOpacity
                 onPress={() => deleteItem(index)}
             >
-                {!item.isYou ? 
-                <View style={{ alignSelf: 'flex-start', width: width }}>
-                <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
-                    <View></View>
+                {item.name == yourName ? 
+                <View style={{ alignSelf: 'flex-end', width: width }}>
+                <View style={{ flexDirection: 'column', alignSelf: 'flex-end' }}>
+                <Text style={{textAlign:'right', fontWeight: 'bold', fontSize: 10,marginTop: 15, marginRight: 20, marginBottom:-2}}>{item.name}</Text>
+
                     <View style={styles.sizeInput}>
+
                         <Text>{item.message}</Text>
                     </View>
                 </View>
             </View>
                 :
-                <View style={{ alignSelf: 'flex-end', width: width }}>
-                    <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-                        <View></View>
-                        <View style={styles.sizeInput}>
-                            <Text>{item.message}</Text>
-                        </View>
+                <View style={{ alignSelf: 'flex-start', width: width }}>
+                <View style={{ flexDirection: 'column', alignSelf: 'flex-start' }}>
+                <Text style={{textAlign:'left', fontWeight: 'bold', fontSize: 10,marginTop: 15, marginLeft: 20, marginBottom:-2}}>{item.name}</Text>
+                    <View style={styles.sizeInput}>
+                        <Text>{item.message}</Text>
                     </View>
                 </View>
+            </View>
+                
                 }
             </TouchableOpacity> 
 
@@ -155,7 +233,6 @@ function App(props) {
         setDateVisible(false)
     }
     function submitSize(value) {
-        console.log(value + '' + pickerIndex)
         var list = memberList;
         list[pickerIndex].size = value
         setMemberList(list)
@@ -165,30 +242,33 @@ function App(props) {
 
         <View keyboardShouldPersistTaps="always" style={{ flex: 1, alignItems: 'center' }}>
 
-            <Picker
-                data={data}
-                show={showPicker}
-                close={() => setShowPicker(false)}
-                submit={(val) => submitSize(val)} />
 
             <Image
-                style={{ width: 100, height: 100, margin: -10 }}
-                source={require('../assets/icon.png')}
+                style={{ width: 100, height: 100, margin: 5 }}
+                source={require('../../assets/icon.png')}
             />
 
-            <Text style={{ margin: 20, fontSize: 20 }}>
-                todo
-        </Text>
-            <FlatList
+            
+ {!isLoading ?
+
+
+<FlatList
             inverted={true}
                 style={{ paddingBottom: 20, flex: 1, }}
                 renderItem={renderItem}
                 keyExtractor={(v, index) => index.toString()}
-                data={chat}
-                extraData={this.state}
+                data={items}
+
 
             />
 
+:
+
+
+<SkypeIndicator color="black" />
+
+
+}
 
 
             <KeyboardAvoidingView behavior="padding" enabled>
@@ -202,20 +282,47 @@ function App(props) {
                     onChangeText={setMessage}
                     onSubmitEditing={onChatSubmit}
                     blurOnSubmit={false}
+                    keyboardAppearance="light"
 
                 />
                 <TouchableOpacity
-                onPress={onChatSubmit}>
+                onPress={onOtherChatSubmit}>
                     <View style={styles.button}>
 
                     </View>
                 </TouchableOpacity>
                 </View>
 
-
             </KeyboardAvoidingView>
 
 
+
+           {
+             !yourName  &&  <Modal isVisible={true} >
+                             <KeyboardAvoidingView style={{borderRadius: 20, padding: 50, backgroundColor: 'white', alignItems: 'center', justifyContent:'center'}} behavior="padding" enabled>
+
+
+         <Image
+                style={{ width: 100, height: 100, margin: 5 }}
+                source={require('../../assets/icon.png')}
+            />
+        <Text style={{fontWeight: 'bold', margin: 0, fontSize: 30, color: '#111'}}>Hello! Enter your nickname </Text>
+
+
+    <Input
+value={input}
+style={styles.nameInput}
+placeholder="Batman, Tarantino, Frank Ocean or whatever"
+onChangeText={setInput}
+onSubmitEditing={submitName}
+
+keyboardAppearance="light"
+    />
+    
+
+    </KeyboardAvoidingView>
+                </Modal>
+           }
 
         </View>
 
@@ -243,18 +350,26 @@ const styles = StyleSheet.create(
             textAlign: 'left',
             paddingLeft: 20,
         },
+        nameInput: {
+            width: 300,
+            margin: 10,
+            textAlign: 'center',
+            padding: 20,
+            marginBottom: 100,
+        },
         sizeInput: {
             zIndex: 10,
             justifyContent: 'center',
 
             height: 50,
-            padding: 5,
+            padding: -10,
             paddingHorizontal: 20,
             alignItems: 'center',
             backgroundColor: 'white',
-            margin: 10,
+            margin: 15,
+            marginBottom: 10,
+            marginTop: 0,
             borderRadius: 20,
-            textAlign: 'center',
             shadowColor: "#000",
             shadowOffset: {
                 width: 0,

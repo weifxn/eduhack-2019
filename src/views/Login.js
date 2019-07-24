@@ -38,7 +38,7 @@ function App(props) {
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
 
       <Image
-          style={{ width: '80%', height: 200, margin: 50 }}
+          style={{ width: 250, height: 200, margin: 50 }}
           source={require('../assets/logo.png')}
         />
         <Input

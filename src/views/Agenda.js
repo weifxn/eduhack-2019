@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-var { height, width } = Dimensions.get('window');
 
 import Moment from 'moment';
 
@@ -22,7 +21,7 @@ import Input from '../components/myInput';
 import { Button } from 'react-native-ui-kitten';
 import DateTimePicker from
  "react-native-modal-datetime-picker";
-import Picker from '../components/picker'
+import Picker from '../components/Picker'
 const schedule = [
     {time: '09:00', title: 'Event 1', description: 'Event 1 Description'},
     {time: '10:45', title: 'Event 2', description: 'Event 2 Description'},
@@ -30,6 +29,8 @@ const schedule = [
     {time: '14:00', title: 'Event 4', description: 'Event 4 Description'},
     {time: '16:30', title: 'Event 5', description: 'Event 5 Description'}
   ]
+  var { height, width } = Dimensions.get('window');
+
 
 const data = [
   {
