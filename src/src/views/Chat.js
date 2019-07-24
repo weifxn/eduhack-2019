@@ -25,40 +25,23 @@ import Input from '../components/myInput';
 import { Button } from 'react-native-ui-kitten';
 import DateTimePicker from
     "react-native-modal-datetime-picker";
+
+    import Modal from "modal-enhanced-react-native-web";
+
+
 var { height, width } = Dimensions.get('window');
 
-
-const data = [
-    {
-        label: "XS",
-        value: "XS",
-    },
-    {
-        label: "S",
-        value: "S",
-    },
-    {
-        label: "M",
-        value: "M",
-    },
-    {
-        label: "L",
-        value: "L",
-    },
-    {
-        label: "XL",
-        value: "XL",
-    },
-]
 
 const initialMember = [{ name: '', size: 'M' }, { name: 'wf', size: 'S' },]
 
 
 function App(props) {
     Moment.locale('en');
+    const [input, setInput] = useState();
+
     const [name, setName] = useState(false);
     const [uni, setUni] = useState(false);
-    const [yourName, setYourName] = useState("wf");
+    const [yourName, setYourName] = useState();
 
     const [dateVisible, setDateVisible] = useState(false);
     const [showPicker, setShowPicker] = useState(false);
@@ -167,13 +150,16 @@ function App(props) {
               name: data.name
               
             }
-            list.push(payload)
+            list = [payload, ...list]
             setLoading(false)
           });
           checkDone(list)
 
         }
       })
+  }
+  function submitName() {
+      setYourName(input)
   }
 
     function renderItem({ item, index }) {
@@ -184,17 +170,19 @@ function App(props) {
             >
                 {item.name == yourName ? 
                 <View style={{ alignSelf: 'flex-end', width: width }}>
-                <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
-                    <View></View>
+                <View style={{ flexDirection: 'column', alignSelf: 'flex-end' }}>
+                <Text style={{textAlign:'right', fontWeight: 'bold', fontSize: 10,marginTop: 15, marginRight: 20, marginBottom:-2}}>{item.name}</Text>
+
                     <View style={styles.sizeInput}>
+
                         <Text>{item.message}</Text>
                     </View>
                 </View>
             </View>
                 :
                 <View style={{ alignSelf: 'flex-start', width: width }}>
-                <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
-                    <View></View>
+                <View style={{ flexDirection: 'column', alignSelf: 'flex-start' }}>
+                <Text style={{textAlign:'left', fontWeight: 'bold', fontSize: 10,marginTop: 15, marginLeft: 20, marginBottom:-2}}>{item.name}</Text>
                     <View style={styles.sizeInput}>
                         <Text>{item.message}</Text>
                     </View>
@@ -236,7 +224,7 @@ function App(props) {
 
 
             <Image
-                style={{ width: 100, height: 100, margin: 50 }}
+                style={{ width: 100, height: 100, margin: 5 }}
                 source={require('../assets/icon.png')}
             />
 
@@ -285,10 +273,34 @@ function App(props) {
                 </TouchableOpacity>
                 </View>
 
-
             </KeyboardAvoidingView>
 
 
+
+           {
+             !yourName  &&  <Modal isVisible={true} >
+                  <View style={{borderRadius: 20, padding: 50, backgroundColor: 'white', alignItems: 'center', justifyContent:'center'}}>
+         <Image
+                style={{ width: 100, height: 100, margin: 5 }}
+                source={require('../assets/icon.png')}
+            />
+        <Text style={{fontWeight: 'bold', margin: 50, fontSize: 90, color: '#111'}}>Hello! </Text>
+
+<Text style={{fontWeight: 'bold', margin: 0, fontSize: 40, color: '#111', textAlign: 'center'}}>Enter your nickname</Text>
+
+    <Input
+value={input}
+style={styles.nameInput}
+placeholder="Batman, Tarantino, Frank Ocean or whatever"
+onChangeText={setInput}
+onSubmitEditing={submitName}
+
+keyboardAppearance="light"
+    />
+    
+    </View>
+                </Modal>
+           }
 
         </View>
 
@@ -316,16 +328,24 @@ const styles = StyleSheet.create(
             textAlign: 'left',
             paddingLeft: 20,
         },
+        nameInput: {
+            width: 300,
+            margin: 10,
+            textAlign: 'center',
+            padding: 20,
+        },
         sizeInput: {
             zIndex: 10,
             justifyContent: 'center',
 
             height: 50,
-            padding: 5,
+            padding: -10,
             paddingHorizontal: 20,
             alignItems: 'center',
             backgroundColor: 'white',
-            margin: 10,
+            margin: 15,
+            marginBottom: 10,
+            marginTop: 0,
             borderRadius: 20,
             shadowColor: "#000",
             shadowOffset: {

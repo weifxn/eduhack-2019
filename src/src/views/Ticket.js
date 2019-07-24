@@ -36,7 +36,7 @@ function App(props) {
          <ConfettiCannon count={20} origin={{x: -10, y: 0}} />
 
       <Image
-          style={{ width: '80%', height: 200, margin: 50 }}
+          style={{ width:280, height: 200, margin: 50 }}
           source={require('../assets/logo.png')}
         />
 <Text style={{marginBottom: 50, fontSize: 30, fontWeight: 'bold'}}>🎉 Congratulations 🎉</Text>

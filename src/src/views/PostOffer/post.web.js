@@ -126,12 +126,14 @@ function App(props) {
   return (
 
     <ScrollView contentContainerStyle={styles.container}>
+        {showPicker &&
 
       <Picker
-        data={data}
-        show={showPicker}
-        close={() => setShowPicker(false)}
-        submit={(val) => submitSize(val)} />
+      data={data}
+      show={showPicker}
+      close={() => setShowPicker(false)}
+      submit={(val) => submitSize(val)} />
+        }
 
       <Image
         style={{ width: 100, height: 100, margin: -10 }}
