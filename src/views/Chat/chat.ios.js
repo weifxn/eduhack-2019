@@ -119,7 +119,21 @@ function App(props) {
 
     }
 
+
+
+
+
+
+    const reply = name => message.charAt(0) === "@" ? setMessage("@" + name + " ") : setMessage("@" + name + " " + message)
+
+
+
+
+
+
+
     useEffect(() => {
+        reply('name')
         getData()
         _retrieveData()
 
@@ -185,9 +199,7 @@ function App(props) {
     function renderItem({ item, index }) {
         return (
 
-            <TouchableOpacity
-                onPress={() => deleteItem(index)}
-            >
+            <View>
                 {item.name == yourName ?
                     <View style={{ alignSelf: 'flex-end', width: width }}>
                         <View style={{ flexDirection: 'column', alignSelf: 'flex-end' }}>
@@ -200,17 +212,21 @@ function App(props) {
                         </View>
                     </View>
                     :
-                    <View style={{ alignSelf: 'flex-start', width: width }}>
-                        <View style={{ flexDirection: 'column', alignSelf: 'flex-start' }}>
-                            <Text style={{ textAlign: 'left', fontWeight: 'bold', fontSize: 10, marginTop: 15, marginLeft: 20,  }}>{item.name}</Text>
-                            <View style={styles.sizeInput}>
-                                <Text>{item.message}</Text>
+                    <TouchableOpacity
+                        onPress={() => reply(item.name)}
+                    >
+                        <View style={{ alignSelf: 'flex-start', width: width }}>
+                            <View style={{ flexDirection: 'column', alignSelf: 'flex-start' }}>
+                                <Text style={{ textAlign: 'left', fontWeight: 'bold', fontSize: 10, marginTop: 15, marginLeft: 20, }}>{item.name}</Text>
+                                <View style={styles.sizeInput}>
+                                    <Text>{item.message}</Text>
+                                </View>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
 
                 }
-            </TouchableOpacity>
+            </View>
 
         )
     }
@@ -219,12 +235,7 @@ function App(props) {
 
         props.navigation.navigate('Login')
     }
-    function deleteItem(index) {
-
-
-
-
-    }
+    
     function addMember() {
         if (memberList.length < 5)
             setMemberList([...memberList, { name: '', size: 'M' }])
@@ -247,10 +258,10 @@ function App(props) {
                 onPress={signOut}
             >
 
-            <Image
-                style={{ width: 100, height: 100, margin: 5 }}
-                source={require('../../assets/icon.png')}
-            />
+                <Image
+                    style={{ width: 100, height: 100, margin: 5 }}
+                    source={require('../../assets/icon.png')}
+                />
             </TouchableOpacity>
 
 
@@ -258,12 +269,12 @@ function App(props) {
 
 
                 <FlatList
+                    keyboardShouldPersistTaps="always"
                     inverted={true}
                     style={{ paddingBottom: 20, flex: 1, }}
                     renderItem={renderItem}
                     keyExtractor={(v, index) => index.toString()}
                     data={items}
-
 
                 />
 
